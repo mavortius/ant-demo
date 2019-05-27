@@ -1,20 +1,94 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<nz-layout class="layout">
+  <nz-header id="header" style="position:fixed; width:100%; z-index: 19;">
+    <div class="toggle">
+      <button nz-button nzType="default" class="toggle-button" (click)="toggle()">
+        <i nz-icon nzType="bars"></i>
+      </button>
+    </div>
+    <div class="logo">
+      <img src="/assets/images/proinde_logo.png" width="123" height="24" alt="Incident Management System">
+    </div>
+    <ul id="menu" nz-menu [nzTheme]="'dark'" style="line-height: 64px;" [class.collapsed]="!collapsed"
+        [nzMode]="collapsed ? 'inline' : 'horizontal'">
+      <li nz-menu-item>
+        <a (click)="collapsed = false;">
+          <span title>Incident Management</span>
+        </a>
+      </li>
+      <li nz-submenu [style.float]="collapsed ? '' : 'right'">
+        <nz-avatar title [nzSize]="30" nzIcon="user" [nzSrc]="'/assets/images/no-avatar.png'"></nz-avatar>
+        <ul>
+          <li nz-menu-item (click)="collapsed = false;">
+            <span title><i nz-icon type="user"></i>User Profile</span>
+          </li>
+          <li nz-menu-divider></li>
+          <li nz-menu-item (click)="collapsed = false;">
+            <span title><i nz-icon type="logout"></i>Log out</span>
+          </li>
+        </ul>
+      </li>
+    </ul>
 
+  </nz-header>
+  <nz-content class="content">
+    <div class="inner-content">
+      <form nz-form [nzLayout]="'vertical'" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <nz-card [nzBordered]="false" nzTitle="Registration">
+          <nz-row [nzGutter]="16">
+            <nz-col nzLg="6" nzMd="12" nzSm="24">
+              <nz-form-item>
+                <nz-form-label nzFor="name" nzRequired>Name</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="name" name="name" type="text" id="name">
+                  <nz-form-explain *ngIf="name.errors?.required && (name.dirty || name.touched)">
+                    Name is required
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+            <nz-col nzLg="6" nzMd="12" nzSm="24">
+              <nz-form-item>
+                <nz-form-label nzFor="birthDate" nzRequired>Birth Date</nz-form-label>
+                <nz-form-control>
+                  <nz-date-picker formControlName="birthDate" [nzFormat]="dateFormat"
+                                  [nzAllowClear]="true"></nz-date-picker>
+                  <nz-form-explain *ngIf="birthDate.errors?.required && (birthDate.dirty || birthDate.touched)">
+                    Birth Date is required
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row [nzGutter]="16">
+            <nz-col nzLg="12" nzMd="12" nzSm="24">
+              <nz-form-item>
+                <nz-form-label nzFor="email" nzRequired>E-mail</nz-form-label>
+                <nz-form-control>
+                  <input nz-input formControlName="email" name="email" type="email" id="email">
+                  <nz-form-explain *ngIf="email.errors && (email.dirty || email.touched)">
+                    <ng-container *ngIf="email?.hasError('required')">
+                      Email is required
+                    </ng-container>
+                    <ng-container *ngIf="email?.hasError('email')">
+                      Emails is invalid
+                    </ng-container>
+                  </nz-form-explain>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+          <nz-row>
+            <nz-col nzLg="12" nzMd="12" nzSm="24">
+              <nz-form-item nz-row>
+                <nz-form-control>
+                  <button nz-button nzType="primary">Register</button>
+                </nz-form-control>
+              </nz-form-item>
+            </nz-col>
+          </nz-row>
+        </nz-card>
+      </form>
+    </div>
+  </nz-content>
+  <nz-footer style="text-align: center;">Representa&ccedil;&otilde;es Proinde Ltda. &copy;2019</nz-footer>
+</nz-layout>

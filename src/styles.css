@@ -1,1 +1,47 @@
-/* You can add global styles to this file, and also import other style files */
+.content {
+  padding: 0 50px;
+  margin-top: 64px;
+}
+
+.inner-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 380px;
+}
+
+.toggle {
+  float: right;
+}
+
+.toggle-button {
+  color: #ffffff;
+  background-color: #001529;
+}
+
+.logo {
+  padding-right: 10px;
+}
+
+@media (min-width: 768px) {
+  .toggle {
+    display: none;
+  }
+
+  .logo {
+    float: left;
+  }
+}
+
+@media (max-width: 768px) {
+  .collapsed {
+    display: none;
+  }
+
+  .logo {
+    float: initial;
+  }
+
+  .toggle {
+    display: block;
+  }
+}
